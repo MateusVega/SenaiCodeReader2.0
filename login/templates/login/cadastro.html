@@ -1,0 +1,59 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="{% static 'login/style.css' %}">
+	<title>Cadastro</title>
+</head>
+
+<style>
+	@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+</style>
+<body>
+	<main>
+		<div class="div1">
+			<div class="div1-1">
+				<div class="div1-1-1">
+					<p class="pergunta">Já tem uma conta?</p>
+					<div class="div1-1-1-1">
+						<p class="buttoncad"><a href="{% url 'login:login' %}" style="color: white; text-decoration: none;">Logar</a></p>
+						<p class="buttoncad"><a href="{% url 'login:saiba' %}" style="color: white; text-decoration: none;">Saiba Mais</a></p>
+					</div>
+				</div>
+				<div class="div1-1-2">
+					<div class="div1-1-2-1" id="login">
+						<p></p>
+						<p class="login">Cadastrar</p>
+						<p></p>
+					</div>
+					<form action="{% url 'login:cadastro' %}" method="post">
+						{% csrf_token %}
+						<div class="div1-1-2-2">
+							<input type="username" name="username" id="username" placeholder="Usuario" class="text" required>
+                            <input type="email" name="email" id="email" placeholder="Email" class="text" required>
+							<input type="password" name="password" id="password" placeholder="Senha" class="text" required>
+						</div>
+						<div class="contamobile">
+							<a class="buttoncad" href="{% url 'login:login' %}" id="loginmobile" style="width: 60px; margin: 10px auto;">Login</a>
+						</div>
+						<div class="div1-1-2-1" id="fazer">
+							<p></p>
+							<input type="submit" value="Cadastrar" class="buttonlogin" style="border: white; margin-top: 15px;">
+							<p></p>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</main>
+	<script>
+		var it = "{{ it }}";
+		if (it == "True"){
+			alert("Senha ou nome invalido")
+		}
+	</script>
+</body>
+</html>

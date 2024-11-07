@@ -1,0 +1,64 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Testing HTML QrCode</title>
+    <style>
+        *{
+            margin: 0px;
+            padding: 0px;
+            font-family: 'Courier New', Courier, monospace;
+            text-align: center;
+        }
+
+        table, th, td {
+            padding: 5px;
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+
+        .on{
+            background-color: green;
+        }
+
+        .off{
+            background-color: red;
+        }
+    </style>
+</head>
+<body>
+    <h1 style="margin: 20px auto;">Adicionar novo codigo</h1>
+    <a href="{% url 'reader:mecanica' %}">Vendo se tá lido ou não</a>
+    <form action="{% url 'reader:save_qr_data' %}" method="post" style="margin-top: 20px;">
+        <select name="tabela" id="tabela" required>
+            <option value="mecanica">Mecanica</option>
+            <option value="eletrica">Eletrica</option>
+            <option value="eletronica">Eletronica</option>
+        </select>
+        <input type="text" name="numero" placeholder="numero" id="numero" required><br>
+        <input type="text" name="nome" placeholder="nome" required><br>
+        <input type="text" name="local" placeholder="local" required><br>
+        <input type="text" name="instrutor" placeholder="instrutor" required><br>
+        <input type="submit">
+    </form>
+    <button onclick="generateQrCode()">Create QrCode</button>
+
+    <div id="ImgBox">
+        <img src="" id="qrImage">
+    </div>
+
+    <script src="https://unpkg.com/html5-qrcode"></script>
+
+    <script>
+        function generateQrCode(){
+            imgbox = document.getElementById("ImgBox");
+            qrimg = document.getElementById("qrImage")
+            qrtext = document.getElementById("numero")
+
+            qrimg.src = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${qrtext.value}`
+        }
+    </script>
+</body>
+</html>
