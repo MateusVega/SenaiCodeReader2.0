@@ -59,6 +59,7 @@ def off_to_on(request):
 
 @login_required(login_url='login:login')
 def reset(request, tabela):
+    print(tabela)
     if tabela == "mecanica":
         mecanica.objects.filter(status="on").update(status="off")
         return redirect('reader:mecanica')

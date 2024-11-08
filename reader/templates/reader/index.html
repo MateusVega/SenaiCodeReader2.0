@@ -40,10 +40,8 @@
 					<ul>
 						<li class="navegacao"> <a style=color:white href=""> &ensp; <span
 								class="material-symbols-outlined">group</span> &ensp; Time </a></li>
-						<li class="navegacao"> <a style=color:white href=""> &ensp; <span
-								class="material-symbols-outlined">settings</span> &ensp; Configurações </a></li>
-						<li class="navegacao"> <a style=color:white href=""> &ensp; <span
-								class="material-symbols-outlined">help</span> &ensp; Ajudar </a></li>
+						<li class="navegacao"> <a style=color:white href="{% url 'reader:reset' tabela %}"> &ensp; <span
+								class="material-symbols-outlined">restart_alt</span> &ensp; Resetar </a></li>
 						<li class="navegacao"> <a style=color:white href="{% url 'reader:logout' %}"> &ensp; <span
 								class="material-symbols-outlined">logout</span> &ensp; Sair </a></li>
 				</div>
@@ -138,9 +136,14 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
 
     <script>
+        document.getElementById("reader").style.display = "none"
         function openqr(){
             reader = document.getElementById("reader")
-            reader.style.display = "block"
+            if (reader.style.display == "none"){
+                reader.style.display = "block"
+            } else{
+                reader.style.display = "none"
+            }
         }
 
         function downloadPDF() {
