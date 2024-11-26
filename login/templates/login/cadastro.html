@@ -53,10 +53,9 @@
 	<script>
 		document.getElementById("username").addEventListener("input", function (event) {
 			let value = this.value;
-			// Remove espaços, acentos e caracteres especiais
-			value = value.normalize("NFD").replace(/[\u0300-\u036f]/g, ""); // Remove acentos
-			value = value.replace(/\s+/g, ""); // Remove espaços
-			this.value = value.replace(/[^a-zA-Z0-9]/g, ""); // Permite apenas letras e números
+			value = value.normalize("NFD").replace(/[\u0300-\u036f]/g, "");//Acento
+			value = value.replace(/\s+/g, "");//Espaço
+			this.value = value.replace(/[^a-zA-Z0-9]/g, "");//Só letra e numero
 		});
 	</script>		
 </body>

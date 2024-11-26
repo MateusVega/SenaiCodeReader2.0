@@ -137,11 +137,11 @@ def upload_file(request):
         }.get(table)
         for _, row in df.iterrows():
             model.objects.update_or_create(
-                numero=row['numero'],
+                numero=row['Numero'],
                 defaults={
-                    'nome': row['nome'],
-                    'local': row['local'],
-                    'instrutor': row['instrutor'],
+                    'nome': row['Nome'],
+                    'local': row['Lugar'],
+                    'instrutor': row['Instrutor'],
                     'status': "off"
                 }
             )
