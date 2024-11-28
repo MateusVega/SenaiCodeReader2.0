@@ -130,17 +130,33 @@
 					<h2>Adicionar Evento</h2>
                     <form action="{% url 'reader:add_event' %}" method="post">
                         <input type="date" name="data" id="data" required><br>
-                        <input type="text" name="evento" id="nomeevento" placeholder="Adicionar evento..." required><br>
+                        <input type="text" name="evento" id="nomeevento" placeholder="Adicionar evento..." required maxlength="22"><br>
                         <button type="submit" id="adicionar" required style="margin: 5px auto;">Adicionar Evento</button><br>
                     </form>
                     {% for e in evento %}
-                    <a id="eventop" href="{% url 'reader:remove_event' e.id %}">{{e.data}} : {{e.evento}}</a>
+                    {% if data < e.data %}
+                    <a id="eventop" href="{% url 'reader:remove_event' e.id %}">{{ e.data }} : {{ e.evento }}</a>
+                    {% else %}
+                    <script>
+                        location.replace("{% url 'reader:remove_event' e.id %}")
+                    </script>
+                    {% endif %}
                     {% endfor %}
 				</div>
 			</div>
 		</aside>
 	</div>
 	
+    <script>
+        let num_eventos = document.querySelectorAll('#eventop').length
+        if (num_eventos >= 5){
+            document.getElementById("adicionar").disabled = true;
+            document.getElementById("evento").innerHTML += "<p style='color: red; font-weight: bold;' id='aviso'>Máximo de 5 eventos atingido</p>"
+        } else{
+            document.getElementById("adicionar").disabled = false;
+        }
+    </script>
+
 	<script src="{% static 'scan/teste1.js' %}"></script>
 
     <script src="https://unpkg.com/html5-qrcode"></script>

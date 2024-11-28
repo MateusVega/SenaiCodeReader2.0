@@ -5,7 +5,11 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.decorators import user_passes_test
 from django.contrib.auth import logout
 import pandas as pd
-from django.contrib import messages
+import datetime
+
+data = datetime.datetime.now()
+data = data - datetime.timedelta(days=1)
+data = data.date()
 
 @login_required(login_url='login')
 def time(request):
@@ -15,19 +19,19 @@ def time(request):
 def mecanicas(request):
     user = request.user
     role = user.is_staff
-    return render(request, 'reader/index.html', {'ferramentas': mecanica.objects.all().values(), 'tabela' : 'mecanica', 'evento': eventos.objects.filter(user=request.user).values(), 'user' : user, 'role' : role, 'it' : ''})
+    return render(request, 'reader/index.html', {'ferramentas': mecanica.objects.all().values(), 'tabela' : 'mecanica', 'evento': eventos.objects.filter(user=request.user).values(), 'user' : user, 'role' : role, 'it' : '', 'data' : data})
 
 @login_required(login_url='login')
 def eletricas(request):
     user = request.user
     role = user.is_staff
-    return render(request, 'reader/index.html', {'ferramentas': eletrica.objects.all().values(), 'tabela' : 'eletrica', 'evento': eventos.objects.filter(user=request.user).values(), 'user' : user, 'role' : role, 'it' : ''})
+    return render(request, 'reader/index.html', {'ferramentas': eletrica.objects.all().values(), 'tabela' : 'eletrica', 'evento': eventos.objects.filter(user=request.user).values(), 'user' : user, 'role' : role, 'it' : '', 'data' : data})
 
 @login_required(login_url='login')
 def eletronicas(request):
     user = request.user
     role = user.is_staff
-    return render(request, 'reader/index.html', {'ferramentas': eletronica.objects.all().values(), 'tabela' : 'eletronica', 'evento': eventos.objects.filter(user=request.user).values(), 'user' : user, 'role' : role, 'it' : ''})
+    return render(request, 'reader/index.html', {'ferramentas': eletronica.objects.all().values(), 'tabela' : 'eletronica', 'evento': eventos.objects.filter(user=request.user).values(), 'user' : user, 'role' : role, 'it' : '', 'data' : data})
 
 @user_passes_test(lambda u: u.is_staff)
 @login_required(login_url='login')
@@ -84,11 +88,11 @@ def off_to_on(request):
 
         if decodetext:
             if tabela == "mecanica":
-                return render(request, 'reader/index.html', {'ferramentas': mecanica.objects.all().values(), 'tabela' : 'mecanica', 'evento': eventos.objects.filter(user=request.user).values(), 'user' : user, 'role' : role, 'it' : tabela_encontrada})
+                return render(request, 'reader/index.html', {'ferramentas': mecanica.objects.all().values(), 'tabela' : 'mecanica', 'evento': eventos.objects.filter(user=request.user).values(), 'user' : user, 'role' : role, 'it' : tabela_encontrada, 'data' : data})
             elif tabela == "eletrica":
-                return render(request, 'reader/index.html', {'ferramentas': eletrica.objects.all().values(), 'tabela' : 'eletrica', 'evento': eventos.objects.filter(user=request.user).values(), 'user' : user, 'role' : role, 'it' : tabela_encontrada})
+                return render(request, 'reader/index.html', {'ferramentas': eletrica.objects.all().values(), 'tabela' : 'eletrica', 'evento': eventos.objects.filter(user=request.user).values(), 'user' : user, 'role' : role, 'it' : tabela_encontrada, 'data' : data})
             else:
-                return render(request, 'reader/index.html', {'ferramentas': eletronica.objects.all().values(), 'tabela' : 'eletronica', 'evento': eventos.objects.filter(user=request.user).values(), 'user' : user, 'role' : role, 'it' : tabela_encontrada})
+                return render(request, 'reader/index.html', {'ferramentas': eletronica.objects.all().values(), 'tabela' : 'eletronica', 'evento': eventos.objects.filter(user=request.user).values(), 'user' : user, 'role' : role, 'it' : tabela_encontrada, 'data' : data})
 
 @login_required(login_url='login')
 def reset(request, tabela):
@@ -122,6 +126,8 @@ def user_logout(request):
     logout(request)
     return redirect('login')
 
+@user_passes_test(lambda u: u.is_staff)
+@login_required(login_url='login')
 def xlsx(request):
     return render(request, 'reader/xlsx.html', {'ferramentas': mecanica.objects.all().values(), 'tabela' : 'mecanica'})
 
