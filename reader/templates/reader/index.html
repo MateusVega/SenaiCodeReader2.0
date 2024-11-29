@@ -19,6 +19,17 @@
     <div id="qrcodez">
         <div id="reader"></div>
     </div>
+    <div id="transferDiv" style="display: none;">
+        <form action="{% url 'reader:transfer' tabela %}" method="POST">
+            <select name="tabela" id="tabela" required>
+                <option value="mecanica">Mecanica</option>
+                <option value="eletrica">Eletrica</option>
+                <option value="eletronica">Eletronica</option>
+            </select>
+            <input type="text" name="number" id="numberTransfer" style="display: none;">
+            <input type="submit" value="submit">
+        </form>
+    </div>
 	<div class="container">
 		<!-- barra lateral -->
 		<aside class="sidebar" id="nav">
@@ -87,14 +98,20 @@
                         <th>Lugar</th>
                         <th>Instrutor</th>
                         <th>Status</th>
+                        <th style="display: flex; justify-content: center;" id="transfer"><span class="material-symbols-outlined" id="transf">move_up</span></th>
                     </tr>
                     {% for ferramenta in ferramentas %}
-                    <tr data-id="{{ ferramenta.numero }}">
+                    <tr data-id="{{ ferramenta.numero }}" style="position: relative;">
                         <td>{{ferramenta.numero}}</td>
                         <td>{{ferramenta.nome}}</td>
                         <td>{{ferramenta.local}}</td>
                         <td>{{ferramenta.instrutor}}</td>
                         <td {% if ferramenta.status == 'on' %} class="on" {% else %} class="off" {% endif %} >{{ferramenta.status}}</td>
+                        <td id="transfer">
+                            <a onclick="transfer('{{ferramenta.numero}}')" style="display: flex; justify-content: center; cursor: pointer;">
+                                <span class="material-symbols-outlined" id="transf">move_up</span>
+                            </a>
+                        </td>
                     </tr>
                     {% endfor %}
                 </table>
@@ -147,6 +164,20 @@
 		</aside>
 	</div>
 	
+    <script>
+        role = "{{role}}"
+        function transfer(Item){
+            if (role == true){
+                if(document.getElementById('transferDiv').style.display == "none"){
+                    document.getElementById('numberTransfer').value = Item
+                    document.getElementById('transferDiv').style.display = "flex"
+                } else{
+                    document.getElementById('transferDiv').style.display = "none"
+                }
+            }
+        }
+    </script>
+
     <script>
         let num_eventos = document.querySelectorAll('#eventop').length
         if (num_eventos >= 5){

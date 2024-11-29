@@ -126,6 +126,35 @@ def user_logout(request):
     logout(request)
     return redirect('login')
 
+@login_required(login_url='login')
+@csrf_exempt
+def transfer(request, tabela):
+    if request.method == 'POST':
+        tabela_origem = request.POST.get('tabela')
+        number = request.POST.get('number')
+
+        tabelas = {
+            "mecanica": mecanica,
+            "eletrica": eletrica,
+            "eletronica": eletronica
+        }
+
+
+        modelo_origem = tabelas[tabela]
+        modelo_destino = tabelas[tabela_origem]
+
+        objeto = modelo_origem.objects.get(numero=number)
+        
+        modelo_destino.objects.create(**{
+            field.name: getattr(objeto, field.name)
+            for field in modelo_origem._meta.fields
+            if field.name != 'id'
+        })
+        
+        objeto.delete()
+
+        return redirect(f'reader:{tabela}')
+
 @user_passes_test(lambda u: u.is_staff)
 @login_required(login_url='login')
 def xlsx(request):

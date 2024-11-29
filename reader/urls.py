@@ -12,6 +12,7 @@ urlpatterns = [
     path('reset/<str:tabela>/', views.reset, name='reset'),
     path('add_event/', views.add_event, name='add_event'),
     path('remove_event/<int:id>/', views.remove_event, name='remove_event'),
+    path('transfer/<str:tabela>/', views.transfer, name='transfer'),
     path('logout/', views.user_logout, name='logout'),
     path('time/', views.time, name='time'),
     path('xlsx/', views.xlsx, name='xlsx'),
