@@ -167,7 +167,7 @@
     <script>
         role = "{{role}}"
         function transfer(Item){
-            if (role == true){
+            if (role){
                 if(document.getElementById('transferDiv').style.display == "none"){
                     document.getElementById('numberTransfer').value = Item
                     document.getElementById('transferDiv').style.display = "flex"
