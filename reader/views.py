@@ -172,11 +172,11 @@ def upload_file(request):
         }.get(table)
         for _, row in df.iterrows():
             model.objects.update_or_create(
-                numero=row['Numero'],
+                numero=row[0],
                 defaults={
-                    'nome': row['Nome'],
-                    'local': row['Lugar'],
-                    'instrutor': row['Instrutor'],
+                    'nome': row[1],
+                    'local': row[2],
+                    'instrutor': row[3],
                     'status': "off"
                 }
             )
