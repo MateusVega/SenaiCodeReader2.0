@@ -58,7 +58,7 @@
                         {% endif %}
                         <li class="navegacao"> <a style=color:white href="{% url 'reader:time' %}"> &ensp; <span
                             class="material-symbols-outlined">group</span> &ensp; Time </a></li>
-						<li class="navegacao"> <a style=color:white href="{% url 'reader:reset' tabela %}"> &ensp; <span
+						<li class="navegacao"> <a style="color:white" href="{% url 'reader:reset' tabela %}" onclick="downloadPDF(event, this)"> &ensp; <span
 								class="material-symbols-outlined">restart_alt</span> &ensp; Resetar </a></li>
 						<li class="navegacao"> <a style=color:white href="{% url 'reader:logout' %}"> &ensp; <span
 								class="material-symbols-outlined">logout</span> &ensp; Sair </a></li>
@@ -221,16 +221,32 @@
             }
         }
 
-        function downloadPDF() {
+        function downloadPDF(event, link) {
+            event.preventDefault();
+
             const element = document.getElementById("cod");
-            html2pdf(element, {
-                margin: 1,
-                filename: 'tabela.pdf',
-                image: { type: 'jpeg', quality: 1.00 },
-                html2canvas: { scale: 2 },
-                jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
-            });
+            const tabela = "{{tabela}}";
+            const dataAtual = new Date();
+            const dia = dataAtual.getDate().toString().padStart(2, '0');
+            const mes = (dataAtual.getMonth() + 1).toString().padStart(2, '0');
+            const ano = dataAtual.getFullYear();
+            const dataFormatada = `${dia}-${mes}-${ano}`;
+
+            html2pdf()
+                .set({
+                    margin: 1,
+                    filename: `${tabela} ${dataFormatada}.pdf`,
+                    image: { type: 'jpeg', quality: 1.00 },
+                    html2canvas: { scale: 2 },
+                    jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
+                })
+                .from(element)
+                .save()
+                .then(() => {
+                    window.location.href = link.href;
+                })
         }
+
 
         function downloadExcel() {
             const table = document.getElementById("cod");
